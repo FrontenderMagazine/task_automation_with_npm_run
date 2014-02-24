@@ -1,27 +1,28 @@
-There are some [fancy tools][1] for doing build automation on javascript
-projects that I've never felt the appeal of because the lesser-known`npm run`
-command has been perfectly adequate for everything I've needed to do while 
-maintaining a very tiny configuration footprint.
+Есть несколько [модных инструментов][1] для автоматизации сборки 
+в javascript-проектах, которые я никогда находил привлекательными, потому как
+знаком с менее извесной командой `npm run`, которой вполне достаточно для всего,
+что мне необходимо, при этом сохраняя достоточно маленький конфигурационный файл. (?)
 
-Here are some tricks I use to get the most out of `npm run` and the 
-`package.json` "scripts" field.
+Вот несколько трюков, которые я использую чтобы получить максимаьную отдачу от 
+`npm run` и полей `script` в `package.json`.
 
-## the scripts field
+## Поле «script»
 
-If you haven't seen it before, [npm][2] looks at a field called `scripts` in
-the package.json of a project in order to make things like`npm test` from the
-`scripts.test` field and `npm start` from the `scripts.start` field work.
+Еслы вы не видели этого раньше, [npm][2] содержит поле под названием `scripts`
+в файле `package.json` проекта для того, чтобы делать такие штуки, как `npm test`,
+выполняющее содержимое поля `scripts.test`, и `npm start`, вызывающий команды
+из поля `scripts.start`.
 
-`npm test` and `npm start` are just shortcuts for `npm run test` and 
-`npm run start` and you can use `npm run` to run whichever entries in the 
-`scripts` field you want!
+`npm test` и `npm start` — это всего лишь удобные ссылки для `npm run test` и
+`npm run start`, и вы можете с помощью `npm run` выполнить совершенно любое
+содержимое любого поля внутри `scripts`.
 
-Another thing that makes `npm run` really great is that npm will automatically
-set up`$PATH` to look in `node_modules/.bin`, so you can just run commands
-supplied by dependencies and devDependencies directly without doing a global 
-install. Packages from npm that you might want to incorporate into your task 
-workflow only need to expose a simple command-line interface and you can always 
-write a simple little program yourself!
+Кроме того, `npm run` великолепен еще и потому, что npm автоматически добавляет
+в `$PATH` директорию `node_modules/.bin`, так что вы можете просто запускать
+команды из `dependencies` или `devDependencies` напрямую, без необходимости
+устанавливать это модули глобально. npm-пакеты, которые вы хотели бы включить
+в свой воркфлоу, должны иметь всего лишь простой интерфейс командной строки, и
+вы сможете написать простую автоматисацию самостоятельно.
 
 ## building javascript
 
