@@ -24,20 +24,19 @@
 в свой воркфлоу, должны иметь всего лишь простой интерфейс командной строки, и
 вы сможете написать простую автоматисацию самостоятельно.
 
-## building javascript
+## сборка javascript
 
-I write my browser code with node-style commonjs `module.exports` and 
-`require()` to organize my code and to use packages published to npm. 
-[browserify][3] can resolve all the `require()` calls statically as a build
-step to create a single concatenated bundle file you can load with a single 
-script tag. To use browserify I can just have a`scripts['build-js']` entry in
-package.json that looks like:
+Я пишу клиентский код, используя для его организации, принятые в commonjs 
+`module.exports` и `require()` и подключая модули, опубликованные в npm. 
+[browserify][3] может разрешить все вызовы `require()` статически, на этапе
+сборки, создав единый склееный бандл-файл, который можно загрузить, используя
+тег `script`. Для использования browserify я просто держу в package.json поле
+`scripts['build-js']`, которыое выглядит так:
 
     "build-js": "browserify browser/main.js > static/bundle.js"
 
-If I want my javascript build step for production to also do minification, I
-can just add`uglify-js` as a devDependency and insert it straight into the
-pipeline:
+Если я хочу собрать javascript для продакшна, я также выполняю минификацию —
+подключаю `uglify-js` как devDependency и дописываю его через пайп:
 
     "build-js": "browserify browser/main.js | uglifyjs -mc > static/bundle.js"
 
