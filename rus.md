@@ -42,40 +42,43 @@
 
 ## watching javascript
 
-To recompile my browser javascript automatically whenever I change a file, I
-can just substitude the`browserify` command for [watchify][4] and add `-d` and
-`-v` for debugging and more verbose output:
+Для автоматической перекомпиляции клиентского javascript при любых изменениях
+файлов, я просто заменяю команду `browserify` на [watchify][4] и добавляю ключи
+`-d` и `-v` для дебага и более подробного вывода.
 
     "watch-js": "watchify browser/main.js -o static/bundle.js -dv"
 
-## building css
+## сборка CSS
 
-I find that `cat` is usually adequate so I just have a script that looks
-something like:
+Я обнаружил, что `cat` обычно полностью удовлетворяет мои потребности, так что
+я просто держу для сборки что-то вроде этого:
 
     "build-css": "cat static/pages/*.css tabs/*/*.css > static/bundle.css"
 
 ## watching css
 
-Similarly to my watchify build, I can recompile css as it changes by
-substituting`cat` with [catw][5]:
+Так же как и с `watchify, я пересобираю css при изменениях с помощью замены `cat`
+на [catw][5]:
 
     "watch-css": "catw static/pages/*.css tabs/*/*.css -o static/bundle.css -v"
 
-## sequential sub-tasks
+## Последовательности задач
 
-If you have 2 tasks you want to run in series, you can just `npm run` each task
-separated by a`&&`: 
+Если у вас есть две задачи, которые вы хотели бы запускать последовательно, то
+вы можете записать их через `npm run` и сгруппировать с помощью `&&`:
 
     "build": "npm run build-js && npm run build-css"
 
-## parallel sub-tasks
+## Параллельные задачи
 
-If you want to run some tasks in parallel, just use `&` as the separator!
+Если вам нужно запустить несколько задач параллельно, просто разделите их
+с помощью `&`:
 
     "watch": "npm run watch-js & npm run watch-css"
 
 ## the complete package.json
+
+Соединив все, о чем я говорил, мы получим примерно такой `package.json`
 
 Altogether, the package.json I've just described might look like:
 
@@ -104,28 +107,30 @@ Altogether, the package.json I've just described might look like:
       }
     }
 
-If I want to build for production I can just do `npm run build` and for local
-development I can just do`npm run watch`!
+Если мне нужно выполнить сборку для продакшна, я просто сделаю `npm run build`.
+Для локальной разработки я запущу `npm run watch`.
 
-You can extend this basic approach however you like! For instance you might
-want to run the`build` step before running `start`, so you could just do:
+Вы можете расширять базовое приближение как хотите! Например, вам может
+понадобиться выполнить `build` до запуска `start`, в этом случае вы просто
+напишете:
 
     "start": "npm run build && node server.js"
 
-or perhaps you want an `npm run start-dev` command that also starts the
-watchers:
+Или, возможно, вы захотите создато команду `npm run start-dev`, которая также
+запустит вотчеры:
 
     "start-dev": "npm run watch & npm start"
 
-You can reorganize the pieces however you want!
+Вы можете реорганизовать все части так, как хотите!
 
-## when things get really complicated...
+## Когда становится действительно сложно...
 
-If you find yourself stuffing a lot of commands into a single `scripts` field
-entry, consider factoring some of those commands out into someplace like`bin/`
+Если вы поняли, что набили слишком много команд в одно поле `scripts`, советую
+вам подумать над тем, чтобы вынести некоторые из этих команд в отдельное место,
+такое как `bin/`.
 
-You can write those scripts in bash or node or perl or whatever. Just put the
-proper`#!` line at the top of the file, `chmod +x`, and you're good to go:
+Эти скрипты можно написать на bash, на node, на perl, да на чем угодно! Просто
+добавьте свойство `#!` в начало файла, выполните `chmod +x`, получится так:
 
     #!/bin/bash
     (cd site/main; browserify browser/main.js | uglifyjs -mc > static/bundle.js)
@@ -133,27 +138,32 @@ proper`#!` line at the top of the file, `chmod +x`, and you're good to go:
 
     "build-js": "bin/build.sh"
 
-If you absolutely need your project to build on windows, just make sure that
-your windows devs have a copy of[msysgit][6] which ships with bash or cygwin or
-something similar. Or tell them to get a UNIX.
+Если вам совершенно точно нужно собирать ваш проект на windows, просто
+удостоверьтесь, что у разработчиков, которые пользуются windows, есть копия
+[msysgit][6], которая поставляется вместе с bash, cygwin или чем-то похожим.
+Или предложите им перейти на UNIX.
 
 I have [some experiments][7] in the works to help with this windows-can't-run-
 bash problem, but the job control and subshell sections aren't finished yet.
 
-## conclusion
+## Вывод
 
-I hope that this `npm run` approach I've documented here will appeal to some of
-you who may be unimpressed with the current state of frontend task automation 
-tooling, particularly those of you like me who just don't "get" the appeal of 
-some of these things. I tend to prefer tools that are more steeped in the unix 
-heritage like git or here with npm just providing a rather minimal interface on 
-top of bash. Some things really don't require a lot of ceremony or coordination 
-and you can often get a lot of mileage out of very simple tools that do very 
-ordinary things.
+Я надеюсь, что те примеры использования `npm run`, которые я описал здесь, 
+помогут тем из вас, кто не был вдохновлен текущим состоянием дел в инструментах
+для сборки фронтенда, и особенно тем, кто, как и я, не проникся призывами
+этих инструментов. Я предпочитаю инструменты, пропитанные наследием UNIX,
+такие, как git, или как npm, о котором я говорил здесь. Эти инструменты
+предоставляют быстрый и минималистичный интерфейс, с которым можно
+взаимодействовать через bash. Некоторые из этих штук не требуют долгих церемоний,
+или обсуждений. Можно зайти очень далеко, используя очень простые инструменты,
+которые делают очень обычные вещи.
 
-If you don't like the `npm run` style I've elaborated upon here you might also
-consider Makefiles as a solid and simple alternative to some of the more baroque
-approaches to task automation making the rounds these days.
+Если вам не нравится стиль `npm run`, о котором я рассказал здесь, вы можете
+присмотреться к makefile, как к простой и крепкой альтернативе пришедшей из
+весьма далеких дней(??).
+
+(to some of the more baroque approaches to task automation making the rounds these days).
+
 
  [1]: http://gruntjs.com/
  [2]: https://npmjs.org
