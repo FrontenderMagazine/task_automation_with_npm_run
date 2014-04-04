@@ -60,7 +60,7 @@
 
 ## Отслеживание изменений в  css
 
-Так же как и с `watchify, я пересобираю css при изменениях с помощью замены `cat`
+Так же как и с `watchify`, я пересобираю css при изменениях с помощью замены `cat`
 на [catw][5]:
 
     "watch-css": "catw static/pages/*.css tabs/*/*.css -o static/bundle.css -v"
