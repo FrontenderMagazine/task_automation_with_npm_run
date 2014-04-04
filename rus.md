@@ -144,8 +144,7 @@
 [msysgit][6], которая поставляется вместе с bash, cygwin или чем-то похожим.
 Или предложите им перейти на UNIX.
 
-I have [some experiments][7] in the works to help with this windows-can't-run-
-bash problem, but the job control and subshell sections aren't finished yet.
+Я много [эксперементировал][7], решая проблему невозможности запуска некоторых комманд bash в терминале windows, но работа пока далека от завершения.
 
 ## Вывод
 
